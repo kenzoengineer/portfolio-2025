@@ -1,28 +1,46 @@
-import { useContext, useMemo } from "react";
-import { WindowContext } from "../App";
 import TileGrid from "./TileGrid";
 import TextPane from "./TextPane";
+import BIconButton from "../components/bauhaus/BIconButton";
 
-const MD_BREAKPOINT = 768;
+import { FiGithub } from "react-icons/fi";
+import { FiLinkedin } from "react-icons/fi";
+import { FiInstagram } from "react-icons/fi";
+import { FiMail } from "react-icons/fi";
 
 const Hero = () => {
-  const { windowWidth, windowHeight } = useContext(WindowContext);
-  const [rows, cols] = useMemo(() => {
-    if (windowWidth < MD_BREAKPOINT) {
-      return [Math.ceil(windowHeight / 192) / 2, Math.ceil(windowWidth / 192)];
-    }
-    return [Math.ceil(windowHeight / 192), Math.ceil(windowWidth / 192) / 2];
-  }, [windowWidth, windowHeight]);
   return (
     <div className="flex w-full h-screen justify-end md:justify-center items-center max-md:flex-col overflow-hidden">
       <div className="w-[42rem] flex flex-col md:pr-10">
         <TextPane />
-        <p className="text-right italic text-red-400 mt-5">
-          - icons will go here -
-        </p>
+        <div className="flex justify-center md:justify-end gap-x-4 md:mt-5 max-md:mb-5">
+          <BIconButton
+            color={"bg-b-black"}
+            to="https://github.com/kenzoengineer"
+          >
+            <FiGithub className="w-8 h-8" />
+          </BIconButton>
+          <BIconButton
+            color={"bg-b-blue"}
+            to="https://www.linkedin.com/in/ken-jiang"
+          >
+            <FiLinkedin className="w-8 h-8" />
+          </BIconButton>
+          <BIconButton
+            color={"bg-b-yellow"}
+            to="https://instagram.com/kenzoengineer"
+          >
+            <FiInstagram className="w-8 h-8" />
+          </BIconButton>
+          <BIconButton color={"bg-b-red"} to="mailto:kenzoengineer@gmail.com">
+            <FiMail className="w-8 h-8" />
+          </BIconButton>
+        </div>
       </div>
-      <div className="overflow-hidden">
-        <TileGrid rows={rows} cols={cols} />
+      <div className="max-md:hidden overflow-hidden">
+        <TileGrid rows={5} cols={4} />
+      </div>
+      <div className="md:hidden overflow-hidden">
+        <TileGrid rows={2} cols={5} />
       </div>
     </div>
   );

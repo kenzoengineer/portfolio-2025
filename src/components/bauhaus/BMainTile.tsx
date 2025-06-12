@@ -1,7 +1,8 @@
+import { useState } from "react";
 import { selectRandom } from "../../utils";
 
-const GLOBAL_SIZE = "h-[12rem] w-[12rem]";
-const GLOBAL_SIZE_HALF = "h-[6rem] w-[6rem]";
+const GLOBAL_SIZE = "h-[20vh] w-[20vh]";
+const GLOBAL_SIZE_HALF = "h-[10vh] w-[10vh]";
 
 const colors = [
   "bg-b-red",
@@ -27,7 +28,7 @@ const directions = [
   `rounded-tr-full bottom-0`,
 ];
 
-const BMainTile = () => {
+const getRandomTileProps = () => {
   const direction = selectRandom(directions);
   const bgColor = selectRandom(colorsSansBlack);
   const outerColor =
@@ -37,9 +38,22 @@ const BMainTile = () => {
   const innerColor = selectRandom(
     bgColor === "bg-b-white" ? colorsSansWhite : colors
   );
+  return { direction, bgColor, outerColor, innerColor };
+};
+
+const BMainTile = () => {
+  const [tileProps, setTileProps] = useState(getRandomTileProps);
+
+  const { direction, bgColor, outerColor, innerColor } = tileProps;
+
+  const reshuffle = () => setTileProps(getRandomTileProps());
+
   return (
     // container (background)
-    <div className={`relative z-10 ${GLOBAL_SIZE} ${bgColor} fadeIn`}>
+    <div
+      className={`relative z-10 ${GLOBAL_SIZE} ${bgColor} fadeIn`}
+      onMouseEnter={reshuffle}
+    >
       {/* outer shape */}
       <div
         className={`relative flex ${outerColor} ${GLOBAL_SIZE} ${direction}`}

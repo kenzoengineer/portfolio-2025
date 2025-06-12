@@ -11,7 +11,7 @@ const TextPane = () => {
         <h2 className="text-xl md:text-2xl">
           Incoming Software Engineer @ <b>Sentry</b>
         </h2>
-        <h2 className="text-xl md:text-2xl max-md:mb-10">
+        <h2 className="text-xl md:text-2xl max-md:mb-5">
           Computer Engineering Alum @ <b>UWaterloo</b>
         </h2>
       </div>
