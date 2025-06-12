@@ -1,7 +1,7 @@
 import { createContext } from "react";
 import Glance from "./Glance/Glance";
 import Hero from "./Hero/Hero";
-import { useWindowDimension } from "./utils";
+import { useWindowDimension } from "./hooks";
 
 interface WindowDims {
   windowWidth: number;

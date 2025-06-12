@@ -2,11 +2,7 @@ import { motion } from "framer-motion";
 
 import BIconButton from "../components/bauhaus/BIconButton";
 
-import { FiGithub } from "react-icons/fi";
-import { FiLinkedin } from "react-icons/fi";
-import { FiInstagram } from "react-icons/fi";
-import { FiMail } from "react-icons/fi";
-
+import { FiGithub, FiLinkedin, FiInstagram, FiMail } from "react-icons/fi";
 const iconContainer = {
   hidden: {},
   show: {
