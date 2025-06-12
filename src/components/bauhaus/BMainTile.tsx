@@ -51,7 +51,7 @@ const BMainTile = () => {
   return (
     // container (background)
     <div
-      className={`relative z-10 ${GLOBAL_SIZE} ${bgColor} fadeIn`}
+      className={`relative z-10 ${GLOBAL_SIZE} ${bgColor}`}
       onMouseEnter={reshuffle}
     >
       {/* outer shape */}
