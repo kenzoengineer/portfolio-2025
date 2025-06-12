@@ -38,7 +38,7 @@ const SkillCards = ({ cardMotionConfig }: SkillCardsProps) => {
           <div className="relative text-b-white font-medium z-20">
             <p>C, C++</p>
             <p>Unix, Zephyr RTOS</p>
-            <p>NRF52840, STM32, Arduino</p>
+            <p>Nordic, STM32, Arduino</p>
           </div>
           <IconMarquee>
             <FiCpu className="w-20 h-20 text-b-yellow -translate-x-10" />

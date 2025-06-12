@@ -2,6 +2,7 @@ import { AnimationGeneratorName } from "framer-motion";
 import CardBox from "./CardBox";
 import HobbyCards from "./HobbyCards";
 import SkillCards from "./SkillCards";
+import Timeline from "./Timeline";
 
 interface GlanceTitleProps {
   text: string;
@@ -39,14 +40,19 @@ const Glance = () => {
         <div className="bg-b-yellow text-b-black py-2 px-4 font-bold mb-10 w-max">
           <span className="font-black scale-105">Hover</span> over the cards!
         </div>
-        <GlanceTitle text="I'm experienced in..." />
-        <CardBox>
-          <SkillCards cardMotionConfig={cardMotion} />
-        </CardBox>
-        <GlanceTitle text="In my spare time I enjoy..." />
-        <CardBox>
-          <HobbyCards cardMotionConfig={cardMotion} />
-        </CardBox>
+        <div className="flex gap-x-10">
+          <div>
+            <GlanceTitle text="I'm experienced in..." />
+            <CardBox>
+              <SkillCards cardMotionConfig={cardMotion} />
+            </CardBox>
+            <GlanceTitle text="In my spare time I enjoy..." />
+            <CardBox>
+              <HobbyCards cardMotionConfig={cardMotion} />
+            </CardBox>
+          </div>
+          <Timeline />
+        </div>
       </div>
     </section>
   );

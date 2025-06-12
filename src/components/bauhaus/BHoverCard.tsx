@@ -65,7 +65,7 @@ const BHoverCard = ({ title, children }: BHoverCardProps) => {
       initial="rest"
       whileHover="hover"
       animate="rest"
-      className="relative overflow-hidden w-64 h-48 bg-b-black p-4"
+      className="relative overflow-hidden w-60 h-48 bg-b-black p-4"
       style={{
         rotateX,
         rotateY,
