@@ -17,10 +17,11 @@ const barVariants = {
 
 interface BHoverCardProps {
   title: string;
+  cta?: string;
   children?: ReactNode;
 }
 
-const BHoverCard = ({ title, children }: BHoverCardProps) => {
+const BHoverCard = ({ title, cta, children }: BHoverCardProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const { x: mouseX, y: mouseY } = useMousePosition();
 
@@ -59,7 +60,8 @@ const BHoverCard = ({ title, children }: BHoverCardProps) => {
     translateY.set(clamp(percentY * translateMax, rotateMax));
   }, [mouseX, mouseY]);
   const barColors = ["bg-b-yellow", "bg-b-red", "bg-b-blue"]; // your palette
-  return (
+
+  const component = (
     <motion.div
       ref={ref}
       initial="rest"
@@ -101,5 +103,14 @@ const BHoverCard = ({ title, children }: BHoverCardProps) => {
       {children}
     </motion.div>
   );
+
+  if (cta) {
+    return (
+      <a href={cta} target="_blank">
+        {component}
+      </a>
+    );
+  }
+  return component;
 };
 export default BHoverCard;

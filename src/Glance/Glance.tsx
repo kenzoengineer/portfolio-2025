@@ -3,6 +3,7 @@ import CardBox from "./CardBox";
 import HobbyCards from "./HobbyCards";
 import SkillCards from "./SkillCards";
 import Timeline from "./Timeline";
+import Eye from "./Eye";
 
 interface GlanceTitleProps {
   text: string;
@@ -32,7 +33,8 @@ const Glance = () => {
   return (
     <section className="flex items-center justify-center mt-20">
       <div className="w-[30rem] lg:w-[55rem] xl:w-[70rem]">
-        <div className="bg-b-black text-b-white px-5 py-7">
+        <div className="bg-b-black text-b-white px-5 py-7 flex">
+          <Eye />
           <h2 className="text-7xl">
             At a <span className="font-bold">glance</span>
           </h2>
