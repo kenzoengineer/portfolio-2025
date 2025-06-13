@@ -40,7 +40,7 @@ const Glance = () => {
         <div className="bg-b-yellow text-b-black py-2 px-4 font-bold mb-10 w-max">
           <span className="font-black scale-105">Hover</span> over the cards!
         </div>
-        <div className="flex gap-x-10">
+        <div className="flex gap-x-15">
           <div>
             <GlanceTitle text="I'm experienced in..." />
             <CardBox>

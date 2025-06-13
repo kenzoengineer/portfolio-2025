@@ -1,3 +1,34 @@
+import { motion } from "framer-motion";
+
+const timelineMotion = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.3,
+    },
+  },
+};
+
+const eventMotion = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      duration: 0.4,
+    },
+  },
+};
+
+const lineMotion = {
+  hidden: { height: "0rem" },
+  show: {
+    height: "6rem",
+    transition: {
+      duration: 0.4,
+    },
+  },
+};
+
 interface EventProps {
   company: string;
   title: string;
@@ -7,58 +38,66 @@ interface EventProps {
 }
 const Event = ({ company, title, location, date, first }: EventProps) => {
   return (
-    <div className="flex gap-x-2">
+    <motion.div variants={eventMotion} className="flex gap-x-2">
       <div className="w-8 text-right -mt-1">
         <p>{date}</p>
       </div>
       <div className="flex flex-col items-center">
         <div className="bg-b-black rounded-full h-5 w-5" />
-        {!first && <div className="bg-b-blue h-24 w-1" />}
+        {!first && (
+          <motion.div variants={lineMotion} className="bg-b-blue h-24 w-1" />
+        )}
       </div>
       <div className="flex flex-col">
         <h3 className="font-bold text-2xl -mt-1">{company}</h3>
         <p className="italic">{title}</p>
         <p className="font-medium">{location}</p>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
 const Timeline = () => {
   return (
-    <div className="flex flex-col">
+    <motion.div
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.75 }}
+      variants={timelineMotion}
+      className="flex flex-col"
+    >
       <Event
         company="Sentry"
-        title="Software Engineer"
+        title="Sftw. Engineer"
         location="San Francisco, CA"
         date="Aug '25"
       />
       <Event
         company="Sentry"
-        title="Software Engineer Intern"
+        title="Sftw. Engineer Intern"
         location="San Francisco, CA"
         date="Sep '24"
       />
       <Event
         company="Vontive"
-        title="Software Engineer Intern"
+        title="Sftw. Engineer Intern"
         location="San Francisco, CA"
         date="Jan '24"
       />
       <Event
         company="Senstar"
-        title="Software Developer Intern"
+        title="Sftw. Developer Intern"
         location="Waterloo, ON"
         date="Jan '23"
       />
       <Event
         company="Shoplogix"
-        title="Software Developer Intern"
+        title="Sftw. Developer Intern"
         location="Oakville, ON"
         date="Apr '22"
         first
       />
-    </div>
+    </motion.div>
   );
 };
 
