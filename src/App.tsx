@@ -2,6 +2,8 @@ import { createContext } from "react";
 import Glance from "./Glance/Glance";
 import Hero from "./Hero/Hero";
 import { useWindowDimension } from "./hooks";
+import Skills from "./Skills/Skills";
+import Career from "./Career/Career";
 
 interface WindowDims {
   windowWidth: number;
@@ -20,6 +22,8 @@ function App() {
       <WindowContext.Provider value={{ windowWidth, windowHeight }}>
         <Hero />
         <Glance />
+        <Skills />
+        <Career />
       </WindowContext.Provider>
     </div>
   );
