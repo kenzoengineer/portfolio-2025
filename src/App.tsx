@@ -20,6 +20,10 @@ function App() {
   return (
     <div className="">
       <WindowContext.Provider value={{ windowWidth, windowHeight }}>
+        <div className="bg-b-red text-b-white py-2 text-center md:hidden">
+          This website is best on{" "}
+          <span className="font-bold">large screens</span>
+        </div>
         <Hero />
         <Glance />
         <Skills />

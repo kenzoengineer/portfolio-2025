@@ -14,3 +14,67 @@ body {
   -moz-osx-font-smoothing: grayscale;
   font-family: "Poppins", sans-serif;
 }
+
+@keyframes vibrate {
+  0% {
+    transform: translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg);
+  }
+  20% {
+    transform: translate3d(-1px, 1px, 1px) rotateX(3deg) rotateY(-3deg);
+  }
+  40% {
+    transform: translate3d(-1px, -1px, -1px) rotateX(-3deg) rotateY(-3deg);
+  }
+  60% {
+    transform: translate3d(1px, 1px, 1px) rotateX(3deg) rotateY(3deg);
+  }
+  80% {
+    transform: translate3d(1px, -1px, -1px) rotateX(-3deg) rotateY(3deg);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg);
+  }
+}
+
+.vibrate {
+  animation: vibrate 0.2s infinite;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* WOW I WISH THERE WAS AN EASIER WAY TO DO THIS LMAO */
+@keyframes rotate3d {
+  0% {
+    transform: rotateX(-10deg) rotateY(0deg) translate3d(0, -2px, 0);
+  }
+  12.5% {
+    transform: rotateX(-7deg) rotateY(7deg) translate3d(1.4px, -1.4px, 0);
+  }
+  25% {
+    transform: rotateX(0deg) rotateY(10deg) translate3d(2px, 0, 0);
+  }
+  37.5% {
+    transform: rotateX(7deg) rotateY(7deg) translate3d(1.4px, 1.4px, 0);
+  }
+  50% {
+    transform: rotateX(10deg) rotateY(0deg) translate3d(0, 2px, 0);
+  }
+  62.5% {
+    transform: rotateX(7deg) rotateY(-7deg) translate3d(-1.4px, 1.4px, 0);
+  }
+  75% {
+    transform: rotateX(0deg) rotateY(-10deg) translate3d(-2px, 0, 0);
+  }
+  87.5% {
+    transform: rotateX(-7deg) rotateY(-7deg) translate3d(-1.4px, -1.4px, 0);
+  }
+  100% {
+    transform: rotateX(-10deg) rotateY(0deg) translate3d(0, -2px, 0);
+  }
+}
+
+.rotate3d {
+  animation: rotate3d linear 2s infinite;
+  transform-style: preserve-3d;
+  will-change: transform;
+}

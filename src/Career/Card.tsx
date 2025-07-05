@@ -58,7 +58,9 @@ interface CardProps {
 
 const Card = ({ company, date, position, logo, color }: CardProps) => {
   return (
-    <div className="h-[20rem] aspect-[5/7] bg-b-white rounded-lg p-4 flex flex-col justify-between shadow-2xl">
+    <div
+      className={`h-[15rem] aspect-[5/7] bg-b-white rounded-lg p-4 flex flex-col justify-between`}
+    >
       <div className="flex justify-start">
         <Corner company={company} logo={logo} color={color} />
       </div>

@@ -4,102 +4,138 @@ import Card from "./Card";
 import { useEffect, useRef, useState } from "react";
 
 const calculateVerticalOffset = (idx: number, length: number) => {
-  return Math.pow(idx - Math.floor(length / 2), 2) * 25;
+  return Math.pow(idx - Math.floor(length / 2), 2) * 20;
 };
 
 const calculateRotation = (idx: number, length: number) => {
   return (idx - Math.floor(length / 2)) * 15;
 };
 
-const checkInside = (panEvent: PanInfo, dropRect: DOMRect | undefined) => {
-  return (dropRect &&
-    panEvent &&
-    panEvent.point.x > dropRect.left &&
-    panEvent.point.x < dropRect.right &&
-    panEvent.point.y > dropRect.top &&
-    panEvent.point.y < dropRect.bottom) as boolean;
+const isOverlapping = (cardRect: DOMRect, dropRect: DOMRect) => {
+  return (
+    cardRect.left < dropRect.right &&
+    cardRect.right > dropRect.left &&
+    cardRect.top < dropRect.bottom &&
+    cardRect.bottom > dropRect.top
+  );
 };
 
-const getDropZoneDelta = (
-  cardRect: DOMRect | undefined,
-  dropRect: DOMRect | undefined
+const handleDragEnd = (
+  dropZoneRef: React.RefObject<HTMLDivElement | null>,
+  cardRef: React.RefObject<HTMLDivElement | null>
 ) => {
-  if (!dropRect || !cardRect) {
-    return { x: 0, y: 0 };
+  if (!dropZoneRef.current || !cardRef.current) return null;
+
+  const dropRect = dropZoneRef.current.getBoundingClientRect();
+  const cardRect = cardRef.current.getBoundingClientRect();
+
+  if (isOverlapping(dropRect, cardRect)) {
+    const snapX =
+      dropRect.left - cardRect.left + (dropRect.width - cardRect.width) / 2;
+    const snapY =
+      dropRect.top - cardRect.top + (dropRect.height - cardRect.height) / 2;
+    return {
+      x: snapX,
+      y: snapY,
+    };
   }
-
-  const cardCenter = {
-    x: cardRect.left + cardRect.width / 2,
-    y: cardRect.top + cardRect.height / 2,
-  };
-  const dropCenter = {
-    x: dropRect.left + dropRect.width / 2,
-    y: dropRect.top + dropRect.height / 2,
-  };
-
-  return {
-    x: dropCenter.x - cardCenter.x,
-    y: dropCenter.y - cardCenter.y,
-  };
+  return null;
 };
 
 interface MovableCardProps {
   dropZoneRef: React.RefObject<HTMLDivElement | null>;
   idx: number;
   cardInfo: CardInfo[];
-  setHovering(v1: boolean): any;
+  placed: boolean;
+  hovering: number;
+  setPlaced(v1: boolean): any;
+  setHovering(v1: number): any;
 }
 
 const MovableCard = ({
   dropZoneRef,
   idx,
   cardInfo,
+  placed,
+  hovering,
+  setPlaced,
   setHovering,
 }: MovableCardProps) => {
+  const [dragging, setDragging] = useState(false);
+
   const x = useMotionValue(0);
   const y = useMotionValue(0 + calculateVerticalOffset(idx, cardInfo.length));
   const rotate = useMotionValue(0 + calculateRotation(idx, cardInfo.length));
-  const controls = useAnimation();
-  const ref = useRef<HTMLDivElement>(null);
-  const [cardRect, setCardRect] = useState<DOMRect | undefined>(undefined);
-  const [dropRect, setDropRect] = useState<DOMRect | undefined>(undefined);
+  const cardControls = useAnimation();
+
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  // evil useEffect to unplace current guy
   useEffect(() => {
-    setDropRect(dropZoneRef.current?.getBoundingClientRect());
-  }, [dropZoneRef]);
-  useEffect(() => {
-    setCardRect(ref.current?.getBoundingClientRect());
-  }, [ref]);
+    if (!placed && !dragging) {
+      cardControls.start({
+        x: 0,
+        y: 0 + calculateVerticalOffset(idx, cardInfo.length),
+        rotate: 0 + calculateRotation(idx, cardInfo.length),
+      });
+    }
+  }, [placed]);
 
   return (
     <motion.div
       drag
       dragMomentum={false}
       style={{ x, y, rotate }}
-      animate={controls}
-      onDrag={(_, a) => {
-        setHovering(checkInside(a, dropRect));
-      }}
-      onDragEnd={(_, a) => {
-        if (checkInside(a, dropRect)) {
-          const delta = getDropZoneDelta(cardRect, dropRect);
-          controls.start({
-            ...delta,
-            rotate: 0,
-            transition: { type: "spring", stiffness: 300 },
-          });
+      animate={cardControls}
+      className="-mx-5 perspective-midrange cursor-grab"
+      ref={cardRef}
+      onDrag={() => {
+        setPlaced(false);
+        setDragging(true);
+        if (
+          dropZoneRef.current &&
+          cardRef.current &&
+          isOverlapping(
+            cardRef.current.getBoundingClientRect(),
+            dropZoneRef.current.getBoundingClientRect()
+          )
+        ) {
+          setHovering(idx);
         } else {
-          controls.start({
-            x: 0,
-            y: 0 + calculateVerticalOffset(idx, cardInfo.length),
-            rotate: calculateRotation(idx, cardInfo.length),
-            transition: { type: "spring", stiffness: 300 },
-          });
+          setHovering(-1);
         }
       }}
-      className="-mx-5"
-      ref={ref}
+      onDragEnd={() => {
+        setDragging(false);
+        const dragEndResult = handleDragEnd(dropZoneRef, cardRef);
+        if (dragEndResult === null) {
+          cardControls.start({
+            x: 0,
+            y: 0 + calculateVerticalOffset(idx, cardInfo.length),
+            rotate: 0 + calculateRotation(idx, cardInfo.length),
+          });
+          return;
+        }
+        const { x: dx, y: dy } = dragEndResult;
+        cardControls.start({
+          x: dx + x.get(),
+          y: dy + y.get(),
+          rotate: 0,
+        });
+        setPlaced(true);
+      }}
     >
-      <Card {...cardInfo[idx]} />
+      {/* any filters */}
+      <motion.div
+        className={`overflow-hidden shadow-2xl ${
+          !dragging && hovering === idx && "rotate3d"
+        }`}
+        // initial={false}
+        // animate={{ height: !dragging && hovering === idx ? 0 : "auto" }}
+        // transition={{ duration: 0.2, ease: "easeInOut" }}
+      >
+        <Card {...cardInfo[idx]} />
+      </motion.div>
     </motion.div>
   );
 };

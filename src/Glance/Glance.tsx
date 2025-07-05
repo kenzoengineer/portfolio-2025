@@ -42,8 +42,8 @@ const Glance = () => {
         <div className="bg-b-yellow text-b-black py-2 px-4 font-bold mb-10 w-max">
           <span className="font-black scale-105">Hover</span> over the cards!
         </div>
-        <div className="flex gap-x-15">
-          <div>
+        <div className="flex max-md:px-4 md:flex-row flex-col gap-x-15">
+          <div className="flex flex-col max-md:items-center">
             <GlanceTitle text="I'm experienced in..." />
             <CardBox>
               <SkillCards cardMotionConfig={cardMotion} />
@@ -53,7 +53,10 @@ const Glance = () => {
               <HobbyCards cardMotionConfig={cardMotion} />
             </CardBox>
           </div>
-          <Timeline />
+          <div className="flex flex-col items-center max-md:mb-20">
+            <GlanceTitle text="I've worked at..." />
+            <Timeline />
+          </div>
         </div>
       </div>
     </section>
